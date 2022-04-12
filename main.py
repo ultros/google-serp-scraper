@@ -4,9 +4,9 @@ import re
 
 # .... ....
 
-keyword = "jesse shelley"
+keyword = ""
 url = f"https://www.google.com/search?q={keyword}"
-your_page = "zildjian.com"
+your_page = ""
 
 
 response = requests.get(url)
@@ -37,7 +37,6 @@ for item in fqdn_item_split:
 
 i = 0
 for item in parsed_fqdn:
-
     if item == your_page:
         print(f"{i+1}: {item} - You rank {i+1}  for \"{item}\"")
     else:
