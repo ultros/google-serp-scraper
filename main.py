@@ -1,45 +1,56 @@
+import argparse
 import bs4
 import requests
 import re
 
-# .... ....
 
-keyword = ""
-url = f"https://www.google.com/search?q={keyword}"
-your_page = ""
+def parse_links(your_domain, keyword):
+    '''Finds and parses a list of Google SERPs.'''
+    fqdn_item_split = []
+    response = requests.get(f"https://www.google.com/search?q={keyword}")
+    soup = bs4.BeautifulSoup(response.text, 'html.parser')
+    links = soup.find_all('a')
+
+    for link in links:
+        parsed_link = re.findall('\A<a href="/url\?.*?;', str(link))
+
+        if parsed_link:
+            for parsed_url in parsed_link:
+                if not re.search("google|youtube", str(parsed_url)):
+                    fqdn = f"{parsed_url[24:-1]}"
+                    fqdn_item = fqdn.split("/")
+                    fqdn_item_split.append(fqdn_item[0])
+
+    return fqdn_item_split
 
 
-response = requests.get(url)
-soup = bs4.BeautifulSoup(response.text, 'html.parser')
+def parse_sitelinks(fqdn_item_split):
+    'Filter out Google Sitelinks.'
+    prev_item = ""
+    parsed_fqdn = []
+    for item in fqdn_item_split:
+        if item != prev_item:
+            parsed_fqdn.append(item)
+        prev_item = item
 
-links = soup.find_all('a')
+    return parsed_fqdn
 
-i = 0
-'''Add FQDN to new list.'''
-fqdn_item_split = []
-for link in links:
-    parsed_link = re.findall('\A<a href="/url\?.*?;', str(link))
 
-    if parsed_link:
-        for parsed_url in parsed_link:
-            if not re.search("google|youtube", str(parsed_url)):
-                fqdn = f"{parsed_url[24:-1]}"
-                fqdn_item = fqdn.split("/")
-                fqdn_item_split.append(fqdn_item[0])
+def get_rank(parsed_fqdn, your_domain):
+    '''Gets current pagerank of domain on Google Search Engine Results Page.'''
+    i = 1
+    for item in parsed_fqdn:
+        if item == your_domain:
+            print(f"{i}: {item} - You rank {i}  for \"{item}\"")
+        else:
+            print(f"{i}: {item}")
 
-'''Filter out Google Sitelinks.'''
-prev_item = ""
-parsed_fqdn = []
-for item in fqdn_item_split:
-    if item != prev_item:
-        parsed_fqdn.append(item)
-    prev_item = item
+        i = i + 1
 
-i = 0
-for item in parsed_fqdn:
-    if item == your_page:
-        print(f"{i+1}: {item} - You rank {i+1}  for \"{item}\"")
-    else:
-        print(f"{i+1}: {item}")
 
-    i = i + 1
+if __name__=="__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("keyword", help="Provide a keyword to search for (e.g. apline).")
+    parser.add_argument("your_domain", help="The FQDN of your website (e.g. soundcloud.com).")
+    args = parser.parse_args()
+    get_rank(parse_sitelinks(parse_links(args.your_domain, args.keyword)), args.your_domain )
