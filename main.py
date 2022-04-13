@@ -36,12 +36,12 @@ def parse_sitelinks(fqdn_item_split):
     return parsed_fqdn
 
 
-def get_rank(parsed_fqdn, your_domain):
+def get_rank(parsed_fqdn, your_domain, keyword):
     '''Gets current pagerank of domain on Google Search Engine Results Page.'''
     i = 1
     for item in parsed_fqdn:
         if item == your_domain:
-            print(f"{i}: {item} - You rank {i}  for \"{item}\"")
+            print(f"{i}: {item} - You rank {i}  for \"{item}\" with keyword: {keyword}")
         else:
             print(f"{i}: {item}")
 
@@ -53,4 +53,4 @@ if __name__=="__main__":
     parser.add_argument("keyword", help="Provide a keyword to search for (e.g. apline).")
     parser.add_argument("your_domain", help="The FQDN of your website (e.g. soundcloud.com).")
     args = parser.parse_args()
-    get_rank(parse_sitelinks(parse_links(args.your_domain, args.keyword)), args.your_domain )
+    get_rank(parse_sitelinks(parse_links(args.your_domain, args.keyword)), args.your_domain, args.keyword)

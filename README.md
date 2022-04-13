@@ -12,7 +12,7 @@ python3 main.py [keyword to search for] [your fqdn to search for]
 <p>3: www.instagram.com
 <p>4: www.ap-line.com
 <p>5: secure-media.collegeboard.org
-<p>6: runestone.academy - You rank 6  for "runestone.academy"
+<p>6: runestone.academy - You rank 6  for "runestone.academy" with keyword: apline
 <p>7: ww.cs.ucf.edu
 <p>8: www.etsy.com
 <p>9: apcomputersciencetutoring.com
