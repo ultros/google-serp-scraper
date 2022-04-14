@@ -7,7 +7,7 @@ import re
 def parse_links(your_domain, keyword):
     '''Finds and parses a list of the first Google SERP.'''
     fqdn_item_split = []
-    response = requests.get(f"https://www.google.com/search?q={keyword}")
+    response = requests.get(f"https://www.google.com/search?num=100&q={keyword}")
     soup = bs4.BeautifulSoup(response.text, 'html.parser')
     links = soup.find_all('a')
 
