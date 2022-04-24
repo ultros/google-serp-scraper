@@ -16,7 +16,6 @@ class GoogleRank:
 
     def get_serp_links(self):
         self.br.open(self.search_url + self.rank_keyword)
-        # print(self.search_url + self.rank_keyword)
         response = self.br.response().read()
         links = re.findall('href="/url\?.*?"><', str(response))
 
@@ -35,7 +34,9 @@ class GoogleRank:
         full_serp = []
         links = self.get_serp_links()
         for link in links:
-            if link == f"www.{self.rank_domain}/" or link == f"{self.rank_domain}/" or link == f"www.{self.rank_domain}":
+            if link == f"www.{self.rank_domain}/" or link == f"{self.rank_domain}/" \
+                    or link == f"www.{self.rank_domain}"\
+                    or link == f"{self.rank_domain}":
                 text = f"You rank {i} for: {link} with keyword: {self.rank_keyword}"
                 ranked.append(text)
             else:
