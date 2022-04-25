@@ -3,7 +3,7 @@ import re
 
 
 class GoogleRank:
-    def __init__(self, url, domain, keyword):
+    def __init__(self, url, domain="", keyword=""):
         self.search_url = url
         self.rank_domain = domain
         self.rank_keyword = keyword
