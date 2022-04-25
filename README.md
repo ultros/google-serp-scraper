@@ -2,10 +2,14 @@
 
 This script currently parses the first page of a Google Search Engine Results Page.
 
+---
+
 Get page rank on SERP example:  
 
 <strong>$ python3 ranker.py google --domain "alpine.com" --keyword "alpine"</strong>  
 You rank 1 for: www.alpine.com/ with keyword: alpine  
+
+---
 
 Find competitor meta keywords example:  
 
