@@ -30,6 +30,7 @@ class GoogleRank:
 
     def get_rank(self):
         i = 1
+
         ranked = []
         full_serp = []
         links = self.get_serp_links()
@@ -42,4 +43,4 @@ class GoogleRank:
             else:
                 full_serp.append(f"{i}: {link}")
             i += 1
-        return ranked, full_serp
+        return ranked, full_serp.extend(ranked)

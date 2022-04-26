@@ -5,6 +5,7 @@ import requests
 
 
 def get_keywords(keyword):
+    soup = bs4.BeautifulSoup()
     search_url = 'https://www.google.com/search?num=100&q='
     rank_domain = ""
     rank_keyword = keyword
@@ -12,17 +13,23 @@ def get_keywords(keyword):
     link_list = gr.get_serp_links()
 
     prior_link = ""
-    soup = bs4.BeautifulSoup()
+    keyword_list = []
+    description_list = []
     for link in link_list:
         if prior_link != link:
             response = requests.get(f"http://{link}")
             soup = bs4.BeautifulSoup(response.text, 'html.parser')
-            keywords = soup.findAll(attrs={"name":"keywords"})
+            keywords = soup.findAll(attrs={"name": "keywords"})
             if keywords:
                 print(keywords)
+                keyword_list.append(keyword)
+            else:
+                pass
         else:
-            pass # duplicates?
+            pass  # duplicates?
         prior_link = link
+
+
 
 def main():
     parser = argparse.ArgumentParser()
